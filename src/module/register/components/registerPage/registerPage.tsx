@@ -12,9 +12,6 @@ export default function RegisterPage() {
   const [password, setPassword] = useState<string>("");
   const [passwordError, setPasswordError] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState<string>("");
-  const [errors, setErrors] = useState<
-    Array<{ field: string; message: string }>
-  >([]);
   const router = useRouter();
   const setAuth = useAuthStore((state) => state.setAuth);
   const { register, loading } = useRegisterService();
@@ -34,7 +31,6 @@ export default function RegisterPage() {
    */
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setErrors([]);
     try {
       if (password !== confirmPassword) {
         setPasswordError("Passwords do not match");
@@ -44,7 +40,6 @@ export default function RegisterPage() {
 
       if (error) {
         // Set validation errors
-        setErrors(error);
         error.forEach(
           (e) => e.field === "username" && setUsernameError(e.message)
         );
@@ -60,7 +55,7 @@ export default function RegisterPage() {
       }
     } catch (err) {
       // Handle unexpected errors
-      setErrors([{ field: "general", message: "Registration failed" }]);
+      console.log(err, "Failed to register user");
     }
   };
 

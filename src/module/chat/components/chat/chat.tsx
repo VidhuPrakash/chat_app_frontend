@@ -23,7 +23,7 @@ export default function Chat({ socket, currentUser, selectedUser }: ChatProps) {
   const [isOnline, setIsOnline] = useState<boolean>(
     selectedUser?.online || false
   );
-  const { getChatHistory, loading } = useChatService();
+  const { getChatHistory } = useChatService();
   useEffect(() => {
     if (!socket || !selectedUser) return;
     /**

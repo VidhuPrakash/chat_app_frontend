@@ -80,7 +80,6 @@ export default function ChatPage() {
     <div className="flex flex-col sm:flex-row h-screen bg-[#ECE5DD]">
       <UserList
         socket={socket}
-        currentUser={currentUser}
         onSelectUser={handleSelectUser}
         onSelectGroup={handleSelectGroup}
         onLogout={handleLogout}

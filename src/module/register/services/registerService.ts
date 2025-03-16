@@ -3,15 +3,15 @@ import { AuthResponse } from "@/lib/types";
 import axios from "axios";
 import { useState } from "react";
 
-  /**
-   * Hook for registering a new user with the given credentials.
-   *
-   * The hook returns an object containing `loading` and `register` properties.
-   *   - `loading` is a boolean indicating whether a registration request is in progress.
-   *   - `register` is a function that takes the registration data and returns a promise resolving to an AuthResponse object containing the user's authentication token and user ID, or an error message and status code on failure.
-   *
-   * @returns An object containing `loading` and `register` properties.
-   */
+/**
+ * Hook for registering a new user with the given credentials.
+ *
+ * The hook returns an object containing `loading` and `register` properties.
+ *   - `loading` is a boolean indicating whether a registration request is in progress.
+ *   - `register` is a function that takes the registration data and returns a promise resolving to an AuthResponse object containing the user's authentication token and user ID, or an error message and status code on failure.
+ *
+ * @returns An object containing `loading` and `register` properties.
+ */
 export default function useRegisterService() {
   const [loading, setLoading] = useState(false);
   /**
@@ -43,7 +43,7 @@ export default function useRegisterService() {
           ],
         };
       }
-      console.error("Registration error:", error);
+      console.info("Registration error:", error);
       throw error;
     } finally {
       setLoading(false);

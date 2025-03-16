@@ -9,9 +9,6 @@ export default function LoginPage() {
   const [emailError, setEmailError] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [passwordError, setPasswordError] = useState<string>("");
-  const [errors, setErrors] = useState<
-    Array<{ field: string; message: string }>
-  >([]);
   const router = useRouter();
   const setAuth = useAuthStore((state) => state.setAuth);
   const { login, loading } = useLoginService();
@@ -30,14 +27,11 @@ export default function LoginPage() {
    */
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setErrors([]);
     try {
       const { data, error } = await login({ email, password });
 
       if (error) {
-        console.log(error);
         // Set validation errors
-        setErrors(error);
         error.forEach((e) => e.field === "email" && setEmailError(e.message));
         error.forEach(
           (e) => e.field === "password" && setPasswordError(e.message)
@@ -50,7 +44,7 @@ export default function LoginPage() {
       }
     } catch (err) {
       // Handle unexpected errors
-      setErrors([{ field: "general", message: "Login failed" }]);
+      console.info(err, "Error logging in");
     }
   };
 

@@ -7,7 +7,6 @@ import useChatService from "../../services/chatService";
 
 interface UserListProps {
   socket: Socket | null;
-  currentUser: User;
   onSelectUser: (user: User) => void;
   onSelectGroup: (group: Group) => void;
   onLogout: () => void;
@@ -15,7 +14,6 @@ interface UserListProps {
 
 export default function UserList({
   socket,
-  currentUser,
   onSelectUser,
   onSelectGroup,
   onLogout,
@@ -25,7 +23,7 @@ export default function UserList({
   const [activeTab, setActiveTab] = useState<"users" | "groups">("users");
   const [groupName, setGroupName] = useState<string>("");
   const [userName, setUserName] = useState<string>("");
-  const { getUsers, getGroups, loading } = useChatService();
+  const { getUsers, getGroups } = useChatService();
 
   useEffect(() => {
     const {
@@ -48,7 +46,7 @@ export default function UserList({
 
         setUsers(filteredUsers);
       } catch (error) {
-        console.error("error fetching users:", error);
+        console.info("error fetching users:", error);
       }
     };
 
@@ -62,10 +60,9 @@ export default function UserList({
       if (!authToken) return;
       try {
         const { data } = await getGroups(authToken);
-        console.log(data);
         setGroups(Array.isArray(data) ? data : []);
       } catch (error) {
-        console.error("Error fetching groups:", error);
+        console.info("Error fetching groups:", error);
       }
     };
 
@@ -120,16 +117,14 @@ export default function UserList({
     if (group) {
       onSelectGroup(group);
     } else {
-      console.error("Group not found:", groupId);
+      console.info("Group not found:", groupId);
     }
   };
 
   return (
     <div className="w-full sm:w-80 bg-[#111B21] text-white p-4 flex flex-col h-screen sm:h-auto shadow-lg">
       <div className="flex items-center justify-between mb-4">
-        <h2 className="text-lg font-semibold">
-          Welcome, {currentUser.username}
-        </h2>
+        <h2 className="text-lg font-semibold">Welcome, {userName}</h2>
         <button
           onClick={onLogout}
           className="bg-green-950 text-white text-sm px-3 py-1 rounded-full hover:bg-green-600 transition duration-200"
@@ -169,11 +164,6 @@ export default function UserList({
                 className="p-3 flex items-center justify-between cursor-pointer hover:bg-[#1F2A30] rounded-lg transition duration-200"
               >
                 <span className="text-sm font-medium">{user.username}</span>
-                <span
-                  className={`w-2 h-2 rounded-full ${
-                    user.online ? "bg-green-500" : "bg-gray-500"
-                  }`}
-                />
               </div>
             ))}
           </div>

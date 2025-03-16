@@ -24,8 +24,7 @@ export default function GroupChat({
   const [typingUser, setTypingUser] = useState<string>("");
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const debouncedInput = useDebounce(input, 1000);
-  const [error, setError] = useState<string>("");
-  const { getGroupChatHistory, loading } = useChatService();
+  const { getGroupChatHistory } = useChatService();
 
   useEffect(() => {
     if (!socket || !selectedGroup || !selectedGroup._id) {
@@ -54,7 +53,7 @@ export default function GroupChat({
         );
         unreadMessages.forEach((msg: GroupMessage) => markAsRead(msg._id));
       } catch (err) {
-        setError("Failed to load chat history");
+        console.info(err, "Failed to load chat history");
       }
     };
 
@@ -111,7 +110,7 @@ export default function GroupChat({
     });
 
     socket.on("error", ({ message }) => {
-      console.error("Socket error:", message);
+      console.info("Socket error:", message);
     });
 
     return () => {

@@ -42,7 +42,7 @@ export default function useLoginService() {
         };
       }
       // Fallback for non-Axios errors (e.g., network issues)
-      console.error("Login error:", error);
+      console.info("Login error:", error);
       return {
         status: 500,
         message: "Internal error",
@@ -80,7 +80,7 @@ export default function useLoginService() {
         };
       }
       // Fallback for non-Axios errors (e.g., network issues)
-      console.error("logout error:", error);
+      console.info("logout error:", error);
       return {
         status: 500,
         message: "Internal error",
